@@ -289,3 +289,5 @@ class CryptoBot(
             f"  Trades:   {len(self.trades)} registrados",
         ]
         return "\n".join(status_parts)
+
+print("Helllo World!")
