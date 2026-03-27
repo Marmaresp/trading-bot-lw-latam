@@ -290,4 +290,3 @@ class CryptoBot(
         ]
         return "\n".join(status_parts)
 
-print("Helllo World!")

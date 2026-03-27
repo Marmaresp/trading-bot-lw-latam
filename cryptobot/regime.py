@@ -1,3 +1,4 @@
+#modifique para automatizar la estrategia el 20/3/26
 """Mixin para market intelligence: régimen de mercado y estrategias."""
 
 import numpy as np
@@ -61,20 +62,19 @@ class RegimeMixin:
         df = self.data.copy()
         n = len(df)
 
-        # ── Constantes de ventana ────────────────────────
-        SHORT, MEDIUM, LONG = REGIME_SHORT_WINDOW, REGIME_MEDIUM_WINDOW, REGIME_LONG_WINDOW
+        SHORT, MEDIUM, LONG = (
+            REGIME_SHORT_WINDOW,
+            REGIME_MEDIUM_WINDOW,
+            REGIME_LONG_WINDOW,
+        )
         STRUCTURAL_DESIRED = REGIME_STRUCTURAL_SMA
         long_structural = max(min(STRUCTURAL_DESIRED, n - LONG), LONG)
 
-        # Columnas a excluir del clustering
         EXCLUDE_COLS = {
-            # Raw OHLCV
             "Open", "High", "Low", "Close", "Volume",
-            # Binarias (0/1 — no informativas para clustering continuo)
             "volatility_bbhi", "volatility_bbli",
             "volatility_kchi", "volatility_kcli",
             "trend_psar_up_indicator", "trend_psar_down_indicator",
-            # Precio absoluto (scale-dependent, redundante con %B/width)
             "trend_ema_fast", "trend_ema_slow",
             "trend_sma_fast", "trend_sma_slow",
             "volatility_bbh", "volatility_bbl", "volatility_bbm",
@@ -85,19 +85,15 @@ class RegimeMixin:
             "trend_visual_ichimoku_a", "trend_visual_ichimoku_b",
             "trend_psar_up", "trend_psar_down",
             "trend_dpo", "momentum_kama",
-            # Acumulativos (no estacionarios, sin techo)
             "volume_adi", "volume_obv", "volume_vpt",
             "volume_nvi", "others_cr", "volume_vwap",
-            # Sentimiento externo (no debe sesgar PCA+GMM estructural)
             "fgi_value",
         }
 
-        # ── 1. Features desde ta library (86+) ──────────
         df_ta = ta_lib.add_all_ta_features(
             df, open="Open", high="High", low="Low", close="Close", volume="Volume"
         )
 
-        # ── 2. Features custom (no incluidos en ta) ─────
         returns = df_ta["Close"].pct_change()
         df_ta["trend_7"] = returns.rolling(SHORT).mean()
         df_ta["trend_21"] = returns.rolling(MEDIUM).mean()
@@ -106,7 +102,6 @@ class RegimeMixin:
         df_ta["vol_21"] = returns.rolling(MEDIUM).std()
         df_ta["vol_50"] = returns.rolling(LONG).std()
 
-        # Garman-Klass volatility
         log_hl = np.log(df_ta["High"] / df_ta["Low"]) ** 2
         log_co = np.log(df_ta["Close"] / df_ta["Open"]) ** 2
         df_ta["gk_volatility"] = np.sqrt(
@@ -114,31 +109,29 @@ class RegimeMixin:
         )
 
         df_ta["vol_ratio"] = df_ta["vol_7"] / df_ta["vol_50"]
-        df_ta["volume_ratio"] = df_ta["Volume"] / df_ta["Volume"].rolling(MEDIUM).mean()
+        df_ta["volume_ratio"] = (
+            df_ta["Volume"] / df_ta["Volume"].rolling(MEDIUM).mean()
+        )
 
         sma_structural = df_ta["Close"].rolling(long_structural).mean()
-        df_ta["dist_sma_structural"] = (df_ta["Close"] - sma_structural) / sma_structural
+        df_ta["dist_sma_structural"] = (
+            (df_ta["Close"] - sma_structural) / sma_structural
+        )
 
         rolling_high = df_ta["Close"].rolling(long_structural).max()
         df_ta["drawdown"] = (df_ta["Close"] - rolling_high) / rolling_high
 
-        # Guardar returns para mapeo de clusters
         df_ta["_returns"] = returns
 
-        # ── 3. Seleccionar features para GMM ─────────────
         exclude = EXCLUDE_COLS | {"_returns"}
         feature_cols = [c for c in df_ta.columns if c not in exclude]
         regime_features = df_ta[feature_cols].copy()
 
-        # ── 4. Limpieza ─────────────────────────────────
         regime_features.ffill(inplace=True)
         regime_features.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-        # Drop columnas con >50% NaN
         thresh = len(regime_features) * REGIME_NAN_THRESHOLD
         regime_features.dropna(axis=1, thresh=int(thresh), inplace=True)
-
-        # Drop filas con NaN restantes (warmup de indicadores)
         regime_features.dropna(inplace=True)
 
         n_raw = regime_features.shape[1]
@@ -150,28 +143,25 @@ class RegimeMixin:
                 f"Considere usar más datos (last_n más alto)."
             )
 
-        # ── 5. Curación automatizada ─────────────────────
-        # 5a. Escalar
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(regime_features)
 
-        # 5b. VarianceThreshold — elimina features near-constant
         var_selector = VarianceThreshold(threshold=REGIME_VARIANCE_THRESHOLD)
         X_selected = var_selector.fit_transform(X_scaled)
 
-        # 5c. Correlación — de cada par con |r| > 0.95, eliminar uno
         corr = pd.DataFrame(X_selected).corr().abs()
         upper = corr.where(np.triu(np.ones(corr.shape), k=1).astype(bool))
-        to_drop = [col for col in upper.columns if any(upper[col] > REGIME_CORRELATION_THRESHOLD)]
+        to_drop = [
+            col for col in upper.columns
+            if any(upper[col] > REGIME_CORRELATION_THRESHOLD)
+        ]
         X_curated = np.delete(X_selected, to_drop, axis=1)
 
         n_after_curation = X_curated.shape[1]
 
-        # ── 6. PCA — retener 95% varianza ───────────────
         pca = PCA(n_components=REGIME_PCA_VARIANCE, random_state=42)
         X_pca = pca.fit_transform(X_curated)
 
-        # ── 7. GMM robusto ───────────────────────────────
         gmm = GaussianMixture(
             n_components=n_regimes,
             covariance_type="full",
@@ -180,22 +170,21 @@ class RegimeMixin:
         )
         gmm.fit(X_pca)
 
-        # ── 8. Predecir y mapear clusters → labels ──────
         labels = gmm.predict(X_pca)
 
-        # Usar returns alineados para mapeo semántico
         aligned_returns = df_ta.loc[regime_features.index, "_returns"]
-        cluster_returns = pd.DataFrame({"cluster": labels, "returns": aligned_returns.values})
+        cluster_returns = pd.DataFrame(
+            {"cluster": labels, "returns": aligned_returns.values}
+        )
         mean_returns = cluster_returns.groupby("cluster")["returns"].mean()
 
         sorted_clusters = mean_returns.sort_values().index.tolist()
         cluster_to_regime = {
-            sorted_clusters[0]: 0,   # Bear
-            sorted_clusters[1]: 1,   # Sideways
-            sorted_clusters[2]: 2,   # Bull
+            sorted_clusters[0]: 0,
+            sorted_clusters[1]: 1,
+            sorted_clusters[2]: 2,
         }
 
-        # Asignar régimen mapeado a self.features (alineación por índice)
         mapped_labels = pd.Series(
             [cluster_to_regime[c] for c in labels],
             index=regime_features.index,
@@ -204,27 +193,25 @@ class RegimeMixin:
         common_idx = self.features.index.intersection(mapped_labels.index)
         self.features.loc[common_idx, "regime"] = mapped_labels.loc[common_idx].values
 
-        # ── 9. Probabilidades del último período ─────────
         last_point = X_pca[-1].reshape(1, -1)
         proba = gmm.predict_proba(last_point)[0]
 
         regime_probs = {}
         for cluster_id, regime_id in cluster_to_regime.items():
             label = REGIME_LABELS[regime_id]
-            # regime_probs[label] = round(proba[cluster_id], 4)
             regime_probs[label] = proba[cluster_id]
 
-        # ── 10. Guardar estado ───────────────────────────
         last_regime_id = cluster_to_regime[labels[-1]]
         regime_label = REGIME_LABELS[last_regime_id]
-        self.regime = regime_label.split()[0]  # "Bull", "Bear", o "Sideways"
+        self.regime = regime_label.split()[0]
         self.regime_probabilities = regime_probs
         self.regime_model = gmm
 
-        # ── 11. Print informativo ────────────────────────
         confidence = proba[labels[-1]]
         print(f"📊 Régimen detectado: {regime_label} (confianza: {confidence:.1%})")
-        print(f"   Pipeline: {n_raw} features → {n_after_curation} curados → {X_pca.shape[1]} PCA")
+        print(
+            f"   Pipeline: {n_raw} features → {n_after_curation} curados → {X_pca.shape[1]} PCA"
+        )
         print(f"   Períodos analizados: {len(regime_features)} de {n} disponibles")
         print(f"   BIC: {gmm.bic(X_pca):.0f}")
 
@@ -233,21 +220,9 @@ class RegimeMixin:
     def regime_report(self) -> None:
         """
         Visualización detallada del régimen actual.
-
-        Muestra:
-        - Régimen actual con probabilidad
-        - Distribución histórica de regímenes
-        - Gráfico de precio coloreado por régimen
-        - Métricas por régimen (return promedio, volatilidad, duración)
-
-        Raises
-        ------
-        RuntimeError
-            Si no se ha ejecutado detect_regime() previamente.
         """
         self._require_regime()
 
-        # 1. Tabla de probabilidades
         print("=" * 50)
         print("📊 REPORTE DE RÉGIMEN DE MERCADO")
         print("=" * 50)
@@ -259,9 +234,10 @@ class RegimeMixin:
             bar = "█" * int(prob * 20)
             print(f"{label:<20} {prob:>10.1%}  {bar}")
 
-        # 2. Estadísticas por régimen
         df = self.features.dropna(subset=["regime"]).copy()
-        print(f"\n{'Régimen':<20} {'Retorno Prom':>14} {'Volatilidad':>14} {'Períodos':>10} {'Duración Prom':>15}")
+        print(
+            f"\n{'Régimen':<20} {'Retorno Prom':>14} {'Volatilidad':>14} {'Períodos':>10} {'Duración Prom':>15}"
+        )
         print("-" * 75)
 
         for regime_id, label in REGIME_LABELS.items():
@@ -274,7 +250,6 @@ class RegimeMixin:
             avg_vol = subset["volatility_20"].mean()
             n_periods = len(subset)
 
-            # Duración promedio (rachas consecutivas)
             regime_series = mask.astype(int)
             changes = regime_series.diff().fillna(0) != 0
             groups = changes.cumsum()
@@ -286,23 +261,23 @@ class RegimeMixin:
                 f"{label:<20} {avg_return:>13.4%} {avg_vol:>13.4f} {n_periods:>10} {avg_duration:>14.1f}"
             )
 
-        # 3. Gráfico Plotly: precio con background coloreado por régimen
         regime_colors = {
-            0: COLOR_PALETTE["red"],     # Bear
-            1: COLOR_PALETTE["yellow"],  # Sideways
-            2: COLOR_PALETTE["green"],   # Bull
+            0: COLOR_PALETTE["red"],
+            1: COLOR_PALETTE["yellow"],
+            2: COLOR_PALETTE["green"],
         }
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=df.index,
-            y=df["Close"],
-            mode="lines",
-            name="Precio",
-            line=dict(color="white", width=1.5),
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["Close"],
+                mode="lines",
+                name="Precio",
+                line=dict(color="white", width=1.5),
+            )
+        )
 
-        # Agregar rectángulos coloreados por régimen
         regime_col = df["regime"].dropna()
         if len(regime_col) > 0:
             current_regime = regime_col.iloc[0]
@@ -314,7 +289,9 @@ class RegimeMixin:
                     fig.add_vrect(
                         x0=start_idx,
                         x1=end_idx,
-                        fillcolor=regime_colors.get(int(current_regime), COLOR_PALETTE["gray"]),
+                        fillcolor=regime_colors.get(
+                            int(current_regime), COLOR_PALETTE["gray"]
+                        ),
                         opacity=0.15,
                         line_width=0,
                     )
@@ -333,7 +310,7 @@ class RegimeMixin:
 
         fig.show()
 
-    def recommend_strategies(self) -> "RegimeMixin":
+    def recommend_strategies(self, auto_select: bool = True) -> "RegimeMixin":
         """
         Recomienda estrategias de trading basadas en el régimen actual.
 
@@ -341,19 +318,10 @@ class RegimeMixin:
         con el régimen detectado (best_regimes / worst_regimes) y
         muestra el rationale de cada una.
 
-        Raises
-        ------
-        RuntimeError
-            Si no se ha ejecutado detect_regime() previamente.
-
-        Returns
-        -------
-        CryptoBot
-            Retorna self para permitir method chaining.
+        Si auto_select=True, selecciona automáticamente la mejor estrategia.
         """
         self._require_regime()
 
-        # Clasificar estrategias por compatibilidad con el régimen actual
         recommended = []
         neutral = []
         not_recommended = []
@@ -372,7 +340,6 @@ class RegimeMixin:
 
         ordered = recommended + neutral + not_recommended
 
-        # Print formateado
         print("=" * 70)
         print(f"📈 ESTRATEGIAS RECOMENDADAS — Régimen: {self.regime}")
         print("=" * 70)
@@ -381,7 +348,18 @@ class RegimeMixin:
             print(f"\n  {entry['signal']}  {entry['name']}")
             print(f"  {entry['rationale']}")
 
-        print("=" * 70) # Línea de cierre para claridad visual
+        print("=" * 70)
+
+        if auto_select:
+            if recommended:
+                best = recommended[0]
+            elif neutral:
+                best = neutral[0]
+            else:
+                best = not_recommended[0]
+
+            print("\n🤖 Seleccionando automáticamente la mejor estrategia...")
+            self.select_strategy(best["key"])
 
         return self
 
