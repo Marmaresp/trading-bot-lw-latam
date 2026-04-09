@@ -22,6 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install "scikit-learn<1.4" -q
           pip install git+https://github.com/Marmaresp/trading-bot-lw-latam.git@test -q
 
       - name: Run bot
