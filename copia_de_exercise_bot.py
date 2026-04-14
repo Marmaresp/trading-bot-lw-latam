@@ -35,7 +35,7 @@ bot.plot_price()
 
 # 3. Crear features
 #bot.create_features()
-bot.create_features(mode="full") #igual aquí
+bot.create_features(mode="momentum_select") #igual aquí
 
 # 4. Detectar régimen de mercado (GMM: Bull, Bear, Sideways)
 bot.detect_regime()

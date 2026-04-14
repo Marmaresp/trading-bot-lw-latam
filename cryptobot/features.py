@@ -47,15 +47,15 @@ class FeaturesMixin:
 
         Momentum (18):
         - momentum_ao : Awesome Oscillator — diferencia de medias móviles de precios medios
-        - momentum_kama : Kaufman Adaptive Moving Average — media móvil adaptativa al ruido
-        - momentum_ppo : Percentage Price Oscillator — diferencia % entre dos EMAs de precio
-        - momentum_ppo_hist : PPO Histogram — diferencia entre PPO y su señal
-        - momentum_ppo_signal : PPO Signal — EMA de la línea PPO
-        - momentum_pvo : Percentage Volume Oscillator — diferencia % entre dos EMAs de volumen
+        - momentum_kama : Kaufman Adaptive Moving Average — media móvil adaptativa al ruido 
+        - momentum_ppo : Percentage Price Oscillator — diferencia % entre dos EMAs de precio 
+        - momentum_ppo_hist : PPO Histogram — diferencia entre PPO y su señal 
+        - momentum_ppo_signal : PPO Signal — EMA de la línea PPO 
+        - momentum_pvo : Percentage Volume Oscillator — diferencia % entre dos EMAs de volumen 
         - momentum_pvo_hist : PVO Histogram — diferencia entre PVO y su señal
-        - momentum_pvo_signal : PVO Signal — EMA de la línea PVO
-        - momentum_roc : Rate of Change — cambio % del precio respecto a n períodos atrás
-        - momentum_rsi : Relative Strength Index — sobrecompra/sobreventa (0-100)
+        - momentum_pvo_signal : PVO Signal — EMA de la línea PVO 
+        - momentum_roc : Rate of Change — cambio % del precio respecto a n períodos atrás 
+        - momentum_rsi : Relative Strength Index — sobrecompra/sobreventa (0-100) 
         - momentum_stoch : Stochastic Oscillator %K — posición del cierre en el rango alto-bajo
         - momentum_stoch_signal : Stochastic %D — media móvil de %K
         - momentum_stoch_rsi : Stochastic RSI — RSI aplicado al RSI
@@ -207,6 +207,30 @@ class FeaturesMixin:
 
             df.dropna(inplace=True)
             n_features = len(df.columns) - 5  # descontar OHLCV originales
+        
+        elif mode == "momentum_select":
+        # Solo momentum seleccionados (verdes)
+        
+        df["momentum_kama"] = ta.momentum.kama(df["Close"])
+        df["momentum_ppo"] = ta.momentum.ppo(df["Close"])
+        df["momentum_ppo_signal"] = ta.momentum.ppo_signal(df["Close"])
+        
+        df["momentum_pvo"] = ta.momentum.pvo(df["Volume"])
+        df["momentum_pvo_signal"] = ta.momentum.pvo_signal(df["Volume"])
+        
+        df["momentum_roc"] = ta.momentum.roc(df["Close"])
+        df["momentum_rsi"] = ta.momentum.rsi(df["Close"], window=RSI_PERIOD)
+
+        # Indicadores básicos útiles (recomendado mantener)
+        df["returns"] = df["Close"].pct_change()
+        df["volatility_20"] = df["returns"].rolling(window=VOLATILITY_WINDOW).std()
+
+        # Incluir FGI si aplica
+        if getattr(self, "fear_greed_enabled", False) and "fgi_value" in self.data.columns:
+            df["fgi_value"] = self.data["fgi_value"]
+
+        df.dropna(inplace=True)
+        n_features = len(df.columns) - 5
 
         else:
             raise ValueError(f"mode debe ser 'core' o 'full', recibido: '{mode}'")
