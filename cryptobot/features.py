@@ -211,19 +211,19 @@ class FeaturesMixin:
         elif mode == "momentum_select":
         # Solo momentum seleccionados (verdes)
         
-        df["momentum_kama"] = ta.momentum.kama(df["Close"])
-        df["momentum_ppo"] = ta.momentum.ppo(df["Close"])
-        df["momentum_ppo_signal"] = ta.momentum.ppo_signal(df["Close"])
-        
-        df["momentum_pvo"] = ta.momentum.pvo(df["Volume"])
-        df["momentum_pvo_signal"] = ta.momentum.pvo_signal(df["Volume"])
-        
-        df["momentum_roc"] = ta.momentum.roc(df["Close"])
-        df["momentum_rsi"] = ta.momentum.rsi(df["Close"], window=RSI_PERIOD)
+            df["momentum_kama"] = ta.momentum.kama(df["Close"])
+            df["momentum_ppo"] = ta.momentum.ppo(df["Close"])
+            df["momentum_ppo_signal"] = ta.momentum.ppo_signal(df["Close"])
+            
+            df["momentum_pvo"] = ta.momentum.pvo(df["Volume"])
+            df["momentum_pvo_signal"] = ta.momentum.pvo_signal(df["Volume"])
+            
+            df["momentum_roc"] = ta.momentum.roc(df["Close"])
+            df["momentum_rsi"] = ta.momentum.rsi(df["Close"], window=RSI_PERIOD)
 
-        # Indicadores básicos útiles (recomendado mantener)
-        df["returns"] = df["Close"].pct_change()
-        df["volatility_20"] = df["returns"].rolling(window=VOLATILITY_WINDOW).std()
+            
+            df["returns"] = df["Close"].pct_change()
+            df["volatility_20"] = df["returns"].rolling(window=VOLATILITY_WINDOW).std()
 
         # Incluir FGI si aplica
         if getattr(self, "fear_greed_enabled", False) and "fgi_value" in self.data.columns:
