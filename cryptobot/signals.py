@@ -49,11 +49,11 @@ class SignalsMixin:
         strategy_info = STRATEGY_REGISTRY[self.selected_strategy]
 
         # ── 1. Régimen desfavorable → todas las señales HOLD ──
-        if self.regime in strategy_info["worst_regimes"]:
-            self.signals = pd.Series(0, index=self.features.index, name="signal")
-            print(f"⚠️ Régimen {self.regime} desfavorable para {strategy_info['name']}")
-            print("   Todas las señales = HOLD")
-            return self
+        #if self.regime in strategy_info["worst_regimes"]:
+         #   self.signals = pd.Series(0, index=self.features.index, name="signal")
+         #   print(f"⚠️ Régimen {self.regime} desfavorable para {strategy_info['name']}")
+         #   print("   Todas las señales = HOLD")
+         #   return self
 
         # ── 2. Preparar features ──────────────────────────────
         X = self.features[self._feature_cols].copy()
