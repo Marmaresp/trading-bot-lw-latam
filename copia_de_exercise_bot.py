@@ -40,10 +40,10 @@ bot.get_signals(confidence_threshold=0.0)
 bot.plot_signals()
 
 # Exportar resultados
-df_export = bot.data[["Open", "High", "Low", "Close"]].copy().reset_index()
+df_export = bot.data[["Open", "High", "Low", "Close"]].copy()
 
 if bot.signals is not None:
-    df_export["signals"] = bot.signals
+    df_export["signals"] = bot.signals.reindex(df_export.index).values
 
 df_export["selected_strategy"] = bot.selected_strategy
 df_export["regime"] = bot.regime
@@ -65,6 +65,7 @@ if bot.model_metrics is not None:
 
 df_export["accuracy"] = accuracy
 
+df_export = df_export.reset_index()
 df_export.to_csv("result_OHC.csv", index=False)
 
 # Backtesting
