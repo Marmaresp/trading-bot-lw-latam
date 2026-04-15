@@ -225,15 +225,16 @@ class FeaturesMixin:
             df["returns"] = df["Close"].pct_change()
             df["volatility_20"] = df["returns"].rolling(window=VOLATILITY_WINDOW).std()
 
-        # Incluir FGI si aplica
-        if getattr(self, "fear_greed_enabled", False) and "fgi_value" in self.data.columns:
-            df["fgi_value"] = self.data["fgi_value"]
+            # Incluir FGI si aplica
+            if getattr(self, "fear_greed_enabled", False) and "fgi_value" in self.data.columns:
+                df["fgi_value"] = self.data["fgi_value"]
 
-        df.dropna(inplace=True)
-        n_features = len(df.columns) - 5
+            df.dropna(inplace=True)
+            n_features = len(df.columns) - 5
 
         else:
-            raise ValueError(f"mode debe ser 'core' o 'full', recibido: '{mode}'")
+            raise ValueError(f"mode debe ser 'core', 'full' o 'momentum_select' , recibido: '{mode}'")
+           
 
         self.features = df
 
