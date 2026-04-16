@@ -49,10 +49,6 @@ df_export["selected_strategy"] = bot.selected_strategy
 df_export["regime"] = bot.regime
 df_export["model_name"] = bot.model_name
 
-if bot.signals is not None:
-    df_export["signal_count_buy"] = (bot.signals == 1).sum()
-    df_export["signal_count_sell"] = (bot.signals == -1).sum()
-    df_export["signal_count_hold"] = (bot.signals == 0).sum()
 
 accuracy = None
 if bot.model_metrics is not None:
