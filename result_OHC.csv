@@ -1,5 +1,4 @@
 Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
-2026-03-28 20:00:00,83.42,83.49,83.34,83.39,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-28 21:00:00,83.16,83.16,82.56,82.75,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-28 22:00:00,82.71,82.86,82.71,82.86,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-28 23:00:00,82.76,82.76,81.8,82.08,,momentum,Bear,logistic_regression,0.6096774193548387
@@ -32,7 +31,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-03-30 02:00:00,82.77,83.98,82.56,83.78,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 03:00:00,83.34,83.4,83.04,83.31,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 04:00:00,83.31,83.75,83.31,83.75,,momentum,Bear,logistic_regression,0.6096774193548387
-2026-03-30 05:00:00,83.85,84.13,83.52,83.74,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-03-30 05:00:00,83.85,84.13,83.52,83.74,,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 06:00:00,83.69,83.81,83.46,83.52,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 07:00:00,83.58,84.2,83.58,84.2,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 08:00:00,84.11,84.81,84.11,84.44,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -43,12 +42,12 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-03-30 13:00:00,84.49,85.01,83.98,83.98,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 14:00:00,83.97,84.64,83.71,84.35,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 15:00:00,84.43,84.76,84.02,84.55,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-03-30 16:00:00,84.35,84.35,84.03,84.14,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-03-30 16:00:00,84.35,84.35,84.03,84.14,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 17:00:00,84.1,84.1,83.13,83.32,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 18:00:00,83.28,83.3,82.5,82.6,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 19:00:00,82.57,82.6,81.98,82.38,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 20:00:00,82.48,82.86,82.48,82.86,1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-03-30 21:00:00,82.77,83.61,82.76,83.34,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-03-30 21:00:00,82.77,83.61,82.76,83.34,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 22:00:00,83.24,83.24,82.7,82.79,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-30 23:00:00,82.57,82.57,82.24,82.55,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-03-31 00:00:00,82.49,82.86,82.29,82.86,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -136,7 +135,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-03 10:00:00,80.0,80.03,79.86,79.9,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 11:00:00,80.3,80.41,79.91,79.91,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 12:00:00,80.2,80.82,79.31,79.4,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-03 13:00:00,79.35,79.51,79.22,79.47,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-03 13:00:00,79.35,79.51,79.22,79.47,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 14:00:00,79.48,80.31,79.48,80.29,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 15:00:00,80.31,80.55,80.31,80.47,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 16:00:00,80.41,80.63,80.37,80.51,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -147,7 +146,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-03 21:00:00,80.27,80.69,80.27,80.4,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 22:00:00,80.37,80.37,80.03,80.19,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-03 23:00:00,80.17,80.63,80.17,80.22,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-04 00:00:00,80.34,80.38,80.19,80.25,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-04 00:00:00,80.34,80.38,80.19,80.25,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 01:00:00,80.23,80.31,80.12,80.13,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 02:00:00,80.14,80.24,80.08,80.17,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 03:00:00,80.26,80.28,80.18,80.22,1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -162,8 +161,8 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-04 12:00:00,80.24,80.25,80.02,80.08,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 13:00:00,80.05,80.15,80.05,80.11,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 14:00:00,80.09,80.2,79.65,80.2,1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-04 15:00:00,80.35,81.57,80.35,80.91,1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-04 16:00:00,81.15,81.34,80.78,80.78,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-04 15:00:00,80.35,81.57,80.35,80.91,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-04 16:00:00,81.15,81.34,80.78,80.78,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 17:00:00,80.7,80.92,80.68,80.9,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 18:00:00,81.01,81.01,80.83,80.89,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-04 19:00:00,80.98,81.26,80.84,80.91,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -190,7 +189,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-05 16:00:00,79.68,79.75,79.54,79.54,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-05 17:00:00,79.5,79.89,79.5,79.89,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-05 18:00:00,79.85,80.08,79.76,79.96,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-05 19:00:00,79.95,80.17,79.65,79.65,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-05 19:00:00,79.95,80.17,79.65,79.65,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-05 20:00:00,79.82,80.19,79.82,80.19,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-05 21:00:00,80.16,80.16,79.6,79.86,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-05 22:00:00,79.76,80.61,79.22,80.61,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -344,7 +343,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-12 02:00:00,82.33,82.97,81.87,82.69,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 03:00:00,82.68,82.77,82.42,82.49,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 04:00:00,82.35,82.42,82.15,82.22,1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-12 05:00:00,82.27,82.37,82.15,82.34,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-12 05:00:00,82.27,82.37,82.15,82.34,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 06:00:00,82.39,82.39,82.25,82.27,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 07:00:00,82.36,82.36,82.32,82.34,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 08:00:00,82.26,82.29,82.26,82.29,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -357,7 +356,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-12 15:00:00,81.56,81.8,81.48,81.68,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 16:00:00,81.57,81.78,81.57,81.72,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 17:00:00,81.87,82.25,81.79,82.09,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-12 18:00:00,82.21,82.3,82.01,82.16,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-12 18:00:00,82.21,82.3,82.01,82.16,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 19:00:00,82.17,82.26,81.92,82.02,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 20:00:00,82.03,82.92,82.03,82.64,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-12 21:00:00,82.83,82.83,82.52,82.68,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -413,10 +412,10 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-14 23:00:00,83.48,84.0,83.48,83.84,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 00:00:00,83.8,83.98,83.53,83.66,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 01:00:00,83.7,83.9,83.64,83.85,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-15 02:00:00,83.9,83.9,83.19,83.37,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-15 02:00:00,83.9,83.9,83.19,83.37,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 03:00:00,83.37,83.44,83.33,83.34,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 04:00:00,83.54,83.6,83.45,83.6,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-15 05:00:00,83.7,83.7,83.0,83.0,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-15 05:00:00,83.7,83.7,83.0,83.0,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 06:00:00,82.99,82.99,82.89,82.94,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 07:00:00,83.02,83.18,82.69,82.77,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-15 08:00:00,82.76,83.09,82.76,83.09,1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -442,7 +441,7 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-16 04:00:00,85.3,85.31,85.2,85.25,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-16 05:00:00,85.28,85.43,85.08,85.34,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-16 06:00:00,85.47,85.47,85.22,85.42,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-16 07:00:00,85.56,85.62,85.21,85.23,-1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-16 07:00:00,85.56,85.62,85.21,85.23,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-16 08:00:00,85.17,85.27,84.95,85.14,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-16 09:00:00,84.99,85.44,84.99,85.24,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-16 10:00:00,85.03,85.12,84.64,84.98,1.0,momentum,Bear,logistic_regression,0.6096774193548387
@@ -498,4 +497,5 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-04-18 12:00:00,86.82,86.95,86.61,86.9,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-18 13:00:00,86.94,86.94,86.53,86.75,1.0,momentum,Bear,logistic_regression,0.6096774193548387
 2026-04-18 14:00:00,86.64,86.81,86.64,86.8,1.0,momentum,Bear,logistic_regression,0.6096774193548387
-2026-04-18 15:00:00,86.8,86.8,86.8,86.8,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-18 15:00:00,86.8,86.8,86.61,86.62,1.0,momentum,Bear,logistic_regression,0.6096774193548387
+2026-04-18 16:00:00,86.66,86.93,86.4,86.82,1.0,momentum,Bear,logistic_regression,0.6096774193548387
