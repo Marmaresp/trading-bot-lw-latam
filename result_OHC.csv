@@ -498,4 +498,4 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-05-01 08:00:00,83.94,84.24,83.94,84.17,-1.0,momentum,Sideways,xgboost,0.5451612903225806
 2026-05-01 09:00:00,84.13,84.14,84.0,84.0,1.0,momentum,Sideways,xgboost,0.5451612903225806
 2026-05-01 10:00:00,83.96,84.05,83.78,83.95,1.0,momentum,Sideways,xgboost,0.5451612903225806
-2026-05-01 11:00:00,83.95,83.95,83.95,83.95,1.0,momentum,Sideways,xgboost,0.5451612903225806
+2026-05-01 11:00:00,83.96,84.1,83.93,83.94,1.0,momentum,Sideways,xgboost,0.5451612903225806
