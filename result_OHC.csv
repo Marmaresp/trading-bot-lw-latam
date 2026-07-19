@@ -498,4 +498,4 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-07-19 17:00:00,75.84,76.18,75.65,75.97,-1.0,momentum,Bull,random_forest,0.535483870967742
 2026-07-19 18:00:00,75.84,75.84,75.41,75.66,-1.0,momentum,Bull,random_forest,0.535483870967742
 2026-07-19 19:00:00,75.68,75.87,75.68,75.83,-1.0,momentum,Bull,random_forest,0.535483870967742
-2026-07-19 20:00:00,75.83,75.83,75.83,75.83,-1.0,momentum,Bull,random_forest,0.535483870967742
+2026-07-19 20:00:00,75.93,76.1,75.87,76.06,-1.0,momentum,Bull,random_forest,0.535483870967742
