@@ -498,4 +498,4 @@ Date,Open,High,Low,Close,signals,selected_strategy,regime,model_name,accuracy
 2026-08-13 08:00:00,76.43,76.43,76.2,76.2,-1.0,momentum,Sideways,adaboost,0.5064516129032258
 2026-08-13 09:00:00,76.19,76.19,75.95,76.15,-1.0,momentum,Sideways,adaboost,0.5064516129032258
 2026-08-13 10:00:00,76.06,76.07,75.76,75.76,-1.0,momentum,Sideways,adaboost,0.5064516129032258
-2026-08-13 11:00:00,75.73,75.73,75.73,75.73,-1.0,momentum,Sideways,adaboost,0.5064516129032258
+2026-08-13 11:00:00,75.73,75.73,75.63,75.63,-1.0,momentum,Sideways,adaboost,0.5064516129032258
